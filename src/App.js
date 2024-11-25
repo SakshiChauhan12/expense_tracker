@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { BrowserRouter, Routes, Route,NavLink } from 'react-router-dom';
+import ExpenseFormPage from './pages/ExpenseFormPage';
+import ExpenseListPage from './pages/ExpenseListPage';
+import { useState } from 'react';
 
 function App() {
+  const [editIndex,setEditIndex]=useState(-1);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+     <div className="App">
+     <nav className="tab">
+       <NavLink to="" className="add_expenses">Add Expense</NavLink>
+        <NavLink to="expenses" className={"view_expenses"}>View Expense</NavLink>
+     </nav>
+     <Routes>
+      <Route path='/' element={<ExpenseFormPage  editIndex={editIndex}></ExpenseFormPage>}></Route>
+      <Route path='expenses' element={<ExpenseListPage setEditIndex={setEditIndex}  ></ExpenseListPage>}></Route>
+     </Routes>
+     </div>
+    </BrowserRouter>
+   
   );
 }
 

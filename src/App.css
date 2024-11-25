@@ -1,38 +1,214 @@
-.App {
-  text-align: center;
+/* General Form Styling */
+form {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 25px;
+  background: linear-gradient(135deg, #f9f9f9, #e8e8e8);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Form Group Styling */
+.form-group {
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Label Styling */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Radio Group Styling */
+.radio-group {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap; /* Wrap to next line if needed */
+  gap: 15px; /* Space between options */
+}
+
+.radio-group label {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center; /* Aligns radio buttons and text */
+  gap: 8px; /* Space between the button and text */
+}
+
+.radio-group input[type="radio"] {
+  transform: scale(1.3); /* Slightly enlarge the radio buttons */
+  accent-color: #4caf50; /* Green highlight for selected radio button */
+}
+
+/* Hover and Active Effects for Labels */
+.radio-group label:hover {
+  background: #eef5ee;
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.radio-group input[type="radio"]:checked + label {
+  background: #4caf50;
   color: white;
+  border-color: #4caf50;
 }
 
-.App-link {
-  color: #61dafb;
+/* Input Styling (for new category) */
+.new-category-input {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.new-category-input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Submit Button Styling */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, #45a049, #3e8e41);
+  transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Expense List Table Container */
+.expense-table-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden; /* Ensures the table stays within the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+.expense-table {
+  width: 100%;
+  border-collapse: collapse; /* Removes extra space between borders */
+  background-color: #f9f9f9;
+}
+
+/* Table Header */
+.expense-table th {
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  padding: 12px 8px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+/* Table Rows */
+.expense-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Alternate Row Colors */
+.expense-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Delete Button */
+.delete-btn {
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Table Hover Effects */
+.expense-table tr:hover {
+  background-color: #e8f5e9;
+}
+
+
+.tab{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  gap:15px;
+  background-color: rgb(215, 250, 220);
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+ height: 80px;
+ position: relative;
+
+}
+.add_expenses{
+  text-decoration: none;
+  color: black; 
+  position: absolute;
+  text-align: center;
+ right:50%;
+  
+}
+.view_expenses{
+  text-decoration: none;
+  color: black;
+  position: absolute;
+  text-align: center;
+  left:60%;
+ 
+ 
+
+}
+.add_expenses:hover{
+  color:rgb(214, 42, 71);
+  font-size: large;
+}
+
+.view_expenses:hover{
+  color:rgb(214, 42, 71);
+  font-size: large;
+
+}
+
+h1{
+  text-align: center;
+  color: rgb(32, 99, 5);
 }
