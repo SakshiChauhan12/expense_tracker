@@ -92,6 +92,7 @@ button[type="submit"] {
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
+  margin-top: 10px;
 }
 
 button[type="submit"]:hover {

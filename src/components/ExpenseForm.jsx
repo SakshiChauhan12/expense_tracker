@@ -1,78 +1,46 @@
-import React,{useState,useEffect} from 'react';
-import {DateInput, AmountInput, TitleInput,CategoryInput, PaymentModeInput, RecurringInput , BeneficiaryInput ,TagsInput} from './Inputs';
-const ExpenseForm = ({onSaveExpense , editIndex, prefilledExpense }) => {
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-    const [amount, setAmount] = useState('');
-    const [title, setTitle] = useState('');
-    const [category, setCategory] = useState('');
-    const [newCategory, setNewCategory] = useState('');
-    const [paymentMode, setPaymentMode] = useState('');
-    const [recurring, setRecurring] = useState(false);
-    const [beneficiary, setBeneficiary] = useState('');
-    const [tags, setTags] = useState('');
 
+import { DateInput, AmountInput, TitleInput, CategoryInput, PaymentModeInput, RecurringInput, BeneficiaryInput, TagsInput } from './Inputs';
 
-    useEffect(() => {
-        if (editIndex > -1) {
-          setDate(prefilledExpense.date);
-          setAmount(prefilledExpense.amount);
-          setTitle(prefilledExpense.title);
-          setCategory(prefilledExpense.category);
-          setNewCategory('');
-          setPaymentMode(prefilledExpense.paymentMode);
-          setRecurring(prefilledExpense.recurring);
-          setBeneficiary(prefilledExpense.beneficiary);
-          setTags(prefilledExpense.tags);
-        }
-      }, [editIndex]);
+const ExpenseForm = ({ onSaveExpense, formValues, setFormValue, resetFormValues }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     
-      const handleSubmit = (e) => {
-        e.preventDefault();
-    
-        // Ensure tags is a string before splitting
-        const processedTags = typeof tags === 'string' ? tags.split(',') : [];
-    
-        // Use category or newCategory
-        const finalCategory = category || newCategory;
-    
-        // Pass the processed tags to onSaveExpense
-        onSaveExpense({
-            date,
-            amount: +amount,
-            title,
-            category: finalCategory,
-            paymentMode,
-            recurring,
-            beneficiary,
-            tags: processedTags,
-        });
-    
-        // Reset the form fields
-        setDate(new Date().toISOString().split('T')[0]);
-        setAmount('');
-        setTitle('');
-        setCategory('');
-        setNewCategory('');
-        setPaymentMode('');
-        setRecurring(false);
-        setBeneficiary('Self');
-        setTags(''); // Ensure this is a string for the next submission
-    };
-    
-    return ( 
-        <form onSubmit={handleSubmit}>
-         <DateInput value={date} onChange={setDate}></DateInput>
-         <AmountInput value={amount} onChange={setAmount}></AmountInput>
-         <TitleInput value={title} onChange={setTitle}></TitleInput>
-         <CategoryInput selectedCategory={category} onChange={setCategory} newCategory={newCategory} onNewCategoryChange={setNewCategory} ></CategoryInput>
-         <PaymentModeInput selectedMode={paymentMode} onChange={setPaymentMode} />
-         <RecurringInput value={recurring} onChange={setRecurring} />
-         <BeneficiaryInput selectedBeneficiary={beneficiary} onChange={setBeneficiary} />
-         <TagsInput value={tags} onChange={setTags} />
-        {editIndex>-1 ?(<button type="submit">Update Expense</button>):(<button type="submit">Add Expense</button>)} 
+    const tags = typeof formValues.tags === "string" 
+      ? formValues.tags.split(',') 
+      : Array.isArray(formValues.tags) 
+      ? formValues.tags 
+      : []; // Default to an empty array if tags are not valid
+  
+    onSaveExpense(
+      { 
+        date: formValues.date,
+        amount: formValues.amount,
+        title: formValues.title,
+        category: formValues.category || formValues.newCategory,
+        paymentMode: formValues.paymentMode,
+        recurring: formValues.recurring,
+        beneficiary: formValues.beneficiary,
+        tags, // Updated
+      }, 
+      formValues.index
+    );
+  
+    resetFormValues();
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <DateInput value={formValues['date']} onChange={val => setFormValue(val, 'date')} />
+      <AmountInput value={formValues['amount']} onChange={val => setFormValue(val, 'amount')} />
+      <TitleInput value={formValues['title']} onChange={val => setFormValue(val, 'title')} />
+      <CategoryInput selectedCategory={formValues['category']} onChange={val => setFormValue(val, 'category')} newCategory={formValues['newCategory']} onNewCategoryChange={val => setFormValue(val, 'newCategory')} />
+      <PaymentModeInput selectedMode={formValues['paymentMode']} onChange={val => setFormValue(val, 'paymentMode')} />
+      <RecurringInput value={formValues['recurring']} onChange={val => setFormValue(val, 'recurring')} />
+      <BeneficiaryInput selectedBeneficiary={formValues['beneficiary']} onChange={val => setFormValue(val, 'beneficiary')} />
+      <TagsInput value={formValues['tags']} onChange={val => setFormValue(val, 'tags')} />
+      { formValues['index'] ? (<button type="submit">Edit Expense</button>) : (<button type="submit">Add Expense</button>) }
+    </form>
+  );
+};
 
-        </form>
-     );
-}
- 
-export default ExpenseForm; 
+export default ExpenseForm;

@@ -1,16 +1,18 @@
 import React from 'react';
 import ExpenseForm from '../components/ExpenseForm';
 import { useNavigate } from 'react-router-dom';
+import { useFormValues } from '../context/FormContext';
 
 
-const ExpenseFormPage = ({editIndex}) => {
+const ExpenseFormPage = () => {
     const navigate=useNavigate();
     const expenseDataString=localStorage.getItem('expenses_data_key')||"[]";
     const expenses=JSON.parse(expenseDataString);
+    const { formValues, setFormValue, resetFormValues } = useFormValues()
 
     
 const handleSaveExpense=(expense,ind)=>{
-    if (ind > -1) {
+    if (ind !==undefined) {
         expenses[ind] = expense;
     } else {
         expenses.push(expense);
@@ -18,16 +20,16 @@ const handleSaveExpense=(expense,ind)=>{
    
    const updatedExpensesString=JSON.stringify(expenses);
    localStorage.setItem('expenses_data_key',updatedExpensesString);
-    navigate('expenses');
+   resetFormValues();
+   navigate('expenses');
 
    
     
 }
-const editExpense = editIndex > -1 ? expenses[editIndex] : null;
     return (
         <div>
            <h1>Daily Expense Tracker</h1>
-           <ExpenseForm onSaveExpense={handleSaveExpense} editIndex={editIndex} prefilledExpense={editExpense}></ExpenseForm>
+           <ExpenseForm onSaveExpense={handleSaveExpense}  formValues={formValues} setFormValue={setFormValue} resetFormValues={resetFormValues} ></ExpenseForm>
          </div> 
        
      );

@@ -36,21 +36,29 @@ const categories = [
 
 export const CategoryInput = ({ selectedCategory, onChange, newCategory, onNewCategoryChange }) => {
   return (
-    <div className='container_category'>
-      <label>Category:</label>
-      <div>
-        {categories.map(category => (
-          <label key={category}>
-         
-            <input type="radio" name="category" value={category} checked={selectedCategory === category } onChange={() => onChange(category)}  />
+    <div className="container_category">
+    <label htmlFor="category-select">Category:</label>
+    <div>
+      <select 
+        id="category-select" 
+        value={selectedCategory} 
+        onChange={(e) => onChange(e.target.value)} // Correctly use the `onChange` handler
+      >
+        {categories.map((category) => (
+          <option key={category} value={category}>
             {category}
-            
-           
-          </label>
+          </option>
         ))}
-        <input type="text" value={newCategory} onChange={(e) => onNewCategoryChange(e.target.value)} placeholder="Add New Category" />
-      </div>
+      </select>
+      <input 
+        type="text" 
+        value={newCategory} 
+        onChange={(e) => onNewCategoryChange(e.target.value)} 
+        placeholder="Add New Category" 
+      />
     </div>
+  </div>
+  
   );
 };
 
