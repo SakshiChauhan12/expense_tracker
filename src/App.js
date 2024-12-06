@@ -1,27 +1,45 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import ExpenseFormPage from './pages/ExpenseFormPage';
 import ExpenseListPage from './pages/ExpenseListPage';
-import { FormValuesProvider } from './context/FormContext';
+import {getExpensesFromBackend, setExpensesInBackend} from './service/localStorage'
+import expenseReducer from './reducers/expenseReducer';
 
 
 function App() {
- 
+  const [editIndex, setEditIndex] = useState(-1);
+  const [expenses, dispatchExpenseAction] = useReducer(expenseReducer, null);
+  useEffect(() => {
+    getExpensesFromBackend().then(expensesVal => {
+      dispatchExpenseAction({
+        type: "FILL",
+        payload: { expenses: expensesVal },
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (expenses === null) {
+      return; // data not loaded from the backend yet
+    }
+    setExpensesInBackend(expenses).then(() => console.log("Saved expenses successfully!"));
+  }, [expenses]);
+
   return (
     <BrowserRouter>
-     <FormValuesProvider>
       <div className="App">
         <nav class="tab">
           <NavLink to="">Add Expense</NavLink>
           <NavLink to="expenses">View Expenses</NavLink>
+          
+
         </nav>
         <Routes>
-          <Route path='' element={<ExpenseFormPage/>}></Route>
-          <Route path='expenses' element={<ExpenseListPage/>}></Route>
+          <Route path='' element={<ExpenseFormPage editIndex={editIndex} setEditIndex={setEditIndex} expenses={expenses} dispatchExpenseAction={dispatchExpenseAction} />}></Route>
+          <Route path='expenses' element={<ExpenseListPage setEditIndex={setEditIndex} expenses={expenses} dispatchExpenseAction={dispatchExpenseAction} />}></Route>
         </Routes>
       </div>
-      </FormValuesProvider>
     </BrowserRouter>
   );
 }
