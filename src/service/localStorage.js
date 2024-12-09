@@ -10,7 +10,7 @@ export async function getExpensesFromBackend() {
 }
 
 export async function setExpensesInBackend(expenses) {
-    await sleep(DELAY);
+    // await sleep(DELAY);
     const updatedExpensesString = JSON.stringify(expenses);
     localStorage.setItem(EXPENSES_DATA_KEY, updatedExpensesString);
     return;
